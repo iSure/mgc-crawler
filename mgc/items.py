@@ -25,5 +25,6 @@ class MgcItem(scrapy.Item):
     createTime = scrapy.Field()
     author = scrapy.Field()
     tableName = scrapy.Field()
+    score = scrapy.Field()
 
     pass

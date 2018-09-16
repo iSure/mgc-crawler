@@ -49,8 +49,13 @@ class GrapesSpider(scrapy.Spider):
             item['source'] = detailUrl 
             item['createTime'] = (int(time.time()))
 
-            nickSpan = news.find("span")
-            item['author'] = nickSpan.string
+            nickSpan = news.find("div", "unit w-1-4 hide-on-middle")
+            item['author'] = nickSpan.find("img").attrs['alt']
+
+            score = news.find("div", "unit w-3-4 mid-whole")
+            scoreSpan = score.find_all("span")
+            item['score'] = scoreSpan[1].get_text()
+
             item['tableName'] = 'o_news_dummy';
             if 'demo wall' == item['category']:
                 item['tableName'] = 'o_issue_content_dummy';
