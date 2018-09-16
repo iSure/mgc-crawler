@@ -17,7 +17,6 @@ class GrapesSpider(scrapy.Spider):
     def __init__(self, category=None, *args, **kwargs):
         super(GrapesSpider, self).__init__(*args, **kwargs)
         if category:
-            print 'i come in category id'
             self.categoryId = category
         self.start_urls = ['http://youxiputao.com/article/index/id/%s' % self.categoryId]
 
@@ -37,7 +36,6 @@ class GrapesSpider(scrapy.Spider):
             info = descSoup.find("div", "index-info")
             item['description'] = info 
 
-            print self.categoryId
             if '16' == self.categoryId:
                 item['category'] = "酷玩"
             elif '14' == self.categoryId:
@@ -56,11 +54,14 @@ class GrapesSpider(scrapy.Spider):
             item['view'] = 0 
             item['comment'] = 0
             item['collection'] = 0
-            item['source'] = 'http://youxiputao.com/article/index/id/' + self.categoryId
+            item['source'] = detailUrl 
             item['createTime'] = (int(time.time()))
 
             nickSpan = news.find("span", "pull-right")
             nickTime = nickSpan.get_text()
             item['author'] = nickTime.split("·")[0]
+            item['tableName'] = 'o_issue_content_dummy';
+            if 'demo wall' == item['category']:
+                item['tableName'] = 'o_news_dummy';
 
             yield item

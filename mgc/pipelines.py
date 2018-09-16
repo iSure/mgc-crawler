@@ -23,10 +23,10 @@ class MgcPipeline(object):
         if item['title']:
             param = (item['uid'], item['sourceFrom'], item['title'], item['description'], item['category'], item['coverPic'], item['banner'], item['view'], item['comment'], item['collection'], item['source'], item['createTime'], item['author'])
             sql = "insert into o_news_dummy (`uid`, `from`, `title`, `description`, `category`, `cover_pic`, `banner`, `view`, `comment`, `collection`, `source`, `create_time`, `author`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            if 'demo wall' == item['category']:
+            if 'o_issue_content_dummy' == item['tableName']:
                 param = (item['title'], item['description'], item['coverPic'], item['category'], item['uid'], item['createTime'], item['sourceFrom'], item['source'], item['author'])
                 sql = "insert into o_issue_content_dummy (`title`, `content`, `cover_pic`, `category`, `uid`, `create_time`, `from`, `url`, `author`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            #print sql
+            print sql
             self.cursor.execute(sql, param)
         else:
             raise DropItem(item)
