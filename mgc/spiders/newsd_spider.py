@@ -7,7 +7,7 @@ import datetime
 from mgc.items import MgcItem
 import requests
 
-class GrapesSpider(scrapy.Spider):
+class NewsdSpider(scrapy.Spider):
     name = "newsd"
 
     def __init__(self, category=None, *args, **kwargs):
