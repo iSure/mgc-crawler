@@ -6,13 +6,10 @@ import time
 import datetime
 from mgc.items import MgcItem
 import requests
+import json
 
 class TaptapSpider(scrapy.Spider):
     name = "taptap"
-
-    '''start_urls = [
-        'http://youxiputao.com/article/index/id/16',
-    ]'''
 
     def __init__(self, category=None, *args, **kwargs):
         super(TaptapSpider, self).__init__(*args, **kwargs)
@@ -21,8 +18,9 @@ class TaptapSpider(scrapy.Spider):
         self.start_urls = ['https://www.taptap.com/category/%s' % self.categoryId]
 
     def parse(self, response):
+        print(response.request.headers['User-Agent'])
         soup = BeautifulSoup(response.body)
-        newsList = soup.find_all("div", "taptap-app-list")
+        newsList = soup.find_all("div", "taptap-app-item")
         for news in newsList:
             item = MgcItem()
             item['uid'] = 0
@@ -43,7 +41,8 @@ class TaptapSpider(scrapy.Spider):
             else:
                 item['category'] = "未知"
 
-            item['coverPic'] = news.find('img').attrs['src']
+            print news.a.img
+            item['coverPic'] = news.a.img.attrs['data-src']
             item['banner'] = ""
             item['view'] = 0 
             item['comment'] = 0
@@ -57,6 +56,7 @@ class TaptapSpider(scrapy.Spider):
             if 'e420' == self.categoryId:
                 item['tableName'] = 'o_news_dummy';
             
-            item['label'] = news.find("a", "taptap-link").get_text()
+            label = news.find("span", "item-caption-label").a.string
+            item['label'] = json.dumps([label])
 
             yield item
