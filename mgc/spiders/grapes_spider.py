@@ -57,6 +57,7 @@ class GrapesSpider(scrapy.Spider):
             item['source'] = detailUrl 
             item['createTime'] = (int(time.time()))
             item['score'] = 0
+            item['label'] = ''
 
             nickSpan = news.find("span", "pull-right")
             nickTime = nickSpan.get_text()

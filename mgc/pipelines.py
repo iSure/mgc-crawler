@@ -20,14 +20,18 @@ class MgcPipeline(object):
             print "Fail to connect to db!"
 
     def process_item(self, item, spider):
+        item['coverPic'] = item['coverPic'].strip()
         if item['title']:
-            param = (item['uid'], item['sourceFrom'], item['title'], item['description'], item['category'], item['coverPic'], item['banner'], item['view'], item['comment'], item['collection'], item['source'], item['createTime'], item['author'], item['score'])
-            sql = "insert into o_news_dummy (`uid`, `from`, `title`, `description`, `category`, `cover_pic`, `banner`, `view`, `comment`, `collection`, `source`, `create_time`, `author`, `score`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            param = (item['uid'], item['sourceFrom'], item['title'], item['description'], item['category'], item['coverPic'], item['banner'], item['view'], item['comment'], item['collection'], item['source'], item['createTime'], item['author'], item['score'], item['label'])
+            sql = "insert into o_news_dummy (`uid`, `from`, `title`, `description`, `category`, `cover_pic`, `banner`, `view`, `comment`, `collection`, `source`, `create_time`, `author`, `score`, `label`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             if 'o_issue_content_dummy' == item['tableName']:
-                param = (item['title'], item['description'], item['coverPic'], item['category'], item['uid'], item['createTime'], item['sourceFrom'], item['source'], item['author'], item['score'])
-                sql = "insert into o_issue_content_dummy (`title`, `content`, `cover_pic`, `category`, `uid`, `create_time`, `from`, `url`, `author`, `score`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            print sql
+                param = (item['title'], item['description'], item['coverPic'], item['category'], item['uid'], item['createTime'], item['sourceFrom'], item['source'], item['author'], item['score'], item['label'])
+                sql = "insert into o_issue_content_dummy (`title`, `content`, `cover_pic`, `category`, `uid`, `create_time`, `from`, `url`, `author`, `score`, `label`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             self.cursor.execute(sql, param)
+            if 'o_news_dummy|o_group_post_dummy' == item['tableName']:
+                param = (item['title'], item['description'], item['coverPic'], item['uid'], item['createTime'], item['sourceFrom'], item['source'], item['author'], item['score'], item['label'])
+                sql = "insert into o_group_post_dummy (`title`, `content`, `cover`, `uid`, `create_time`, `from`, `source`, `author`, `score`, `label`) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                self.cursor.execute(sql, param)
         else:
             raise DropItem(item)
 

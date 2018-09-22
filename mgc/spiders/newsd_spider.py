@@ -11,7 +11,7 @@ class NewsdSpider(scrapy.Spider):
     name = "newsd"
 
     def __init__(self, category=None, *args, **kwargs):
-        super(GrapesSpider, self).__init__(*args, **kwargs)
+        super(NewsdSpider, self).__init__(*args, **kwargs)
         if category:
             self.category = category
         self.start_urls = ['http://news.d.cn/%s' % self.category + '.html']
@@ -56,8 +56,9 @@ class NewsdSpider(scrapy.Spider):
             scoreSpan = score.find_all("span")
             item['score'] = scoreSpan[1].get_text()
 
-            item['tableName'] = 'o_news_dummy';
+            item['tableName'] = 'o_news_dummy'
             if 'demo wall' == item['category']:
-                item['tableName'] = 'o_issue_content_dummy';
+                item['tableName'] = 'o_issue_content_dummy'
+            item['label'] = ''
 
             yield item

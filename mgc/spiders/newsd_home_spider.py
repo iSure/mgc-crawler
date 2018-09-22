@@ -51,6 +51,7 @@ class NewsdHomeSpider(scrapy.Spider):
 
                 item['score'] = 0
 
-                item['tableName'] = 'o_news_dummy';
+                item['tableName'] = 'o_news_dummy|o_group_post_dummy'
+                item['label'] = ''
 
                 yield item
