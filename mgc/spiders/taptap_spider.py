@@ -18,7 +18,6 @@ class TaptapSpider(scrapy.Spider):
         self.start_urls = ['https://www.taptap.com/category/%s' % self.categoryId]
 
     def parse(self, response):
-        print(response.request.headers['User-Agent'])
         soup = BeautifulSoup(response.body)
         newsList = soup.find_all("div", "taptap-app-item")
         for news in newsList:
@@ -41,14 +40,13 @@ class TaptapSpider(scrapy.Spider):
             else:
                 item['category'] = "未知"
 
-            print news.a.img
             item['coverPic'] = news.a.img.attrs['data-src']
             item['banner'] = ""
             item['view'] = 0 
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
 
             item['author'] = '' 
@@ -57,6 +55,6 @@ class TaptapSpider(scrapy.Spider):
                 item['tableName'] = 'o_news_dummy';
             
             label = news.find("span", "item-caption-label").a.string
-            item['label'] = json.dumps([label])
+            item['label'] = json.dumps([label], ensure_ascii=False, encoding='utf-8')
 
             yield item

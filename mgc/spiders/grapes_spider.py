@@ -55,15 +55,15 @@ class GrapesSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
             item['label'] = ''
 
             nickSpan = news.find("span", "pull-right")
             nickTime = nickSpan.get_text()
             item['author'] = nickTime.split("·")[0]
-            item['tableName'] = 'o_issue_content_dummy';
+            item['tableName'] = 'o_news_dummy';
             if 'demo wall' == item['category']:
-                item['tableName'] = 'o_news_dummy';
+                item['tableName'] = 'o_issue_content_dummy';
 
             yield item

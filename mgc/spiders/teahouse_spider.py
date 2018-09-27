@@ -48,10 +48,10 @@ class TeahouseSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
             label = news.find("a", "sort").string
-            item['label'] = json.dumps([label])
+            item['label'] = json.dumps([label], ensure_ascii=False, encoding='utf-8')
 
             nickSpan = news.find("div", "aut").find("span")
             item['author'] = nickSpan.get_text()

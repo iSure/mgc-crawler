@@ -41,7 +41,7 @@ class CatpawSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
             item['label'] = ''
 

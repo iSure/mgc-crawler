@@ -42,10 +42,10 @@ class GamedogSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
-            label = news.find("p", "ol_c").get_text().split("：")[0]
-            item['label'] = json.dumps([label])
+            label = news.find("p", "ol_c").get_text().split("：")[1]
+            item['label'] = json.dumps([label], ensure_ascii=False, encoding='utf-8')
 
             item['author'] = '' 
             item['tableName'] = 'o_issue_content_dummy';

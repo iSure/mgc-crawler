@@ -47,7 +47,7 @@ class NewsdSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
 
             nickSpan = news.find("div", "unit w-1-4 hide-on-middle")
             item['author'] = nickSpan.find("img").attrs['alt']
@@ -56,9 +56,7 @@ class NewsdSpider(scrapy.Spider):
             scoreSpan = score.find_all("span")
             item['score'] = scoreSpan[1].get_text()
 
-            item['tableName'] = 'o_news_dummy'
-            if 'demo wall' == item['category']:
-                item['tableName'] = 'o_issue_content_dummy'
+            item['tableName'] = 'o_issue_content_dummy'
             item['label'] = ''
 
             yield item

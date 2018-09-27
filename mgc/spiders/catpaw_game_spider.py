@@ -51,7 +51,7 @@ class CatpawGameSpider(scrapy.Spider):
             item['comment'] = 0
             item['collection'] = 0
             item['source'] = detailUrl 
-            item['createTime'] = (int(time.time()))
+            item['createTime'] = (int(round(1000 * time.time())))
             item['score'] = 0
 
             labels = []
@@ -59,7 +59,7 @@ class CatpawGameSpider(scrapy.Spider):
             for label in labelList:
                 labels.append(label.string)
 
-            item['label'] = json.dumps(labels)
+            item['label'] = json.dumps([label], ensure_ascii=False, encoding='utf-8')
             item['author'] = ''
 
             yield item

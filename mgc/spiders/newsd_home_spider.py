@@ -37,6 +37,7 @@ class NewsdHomeSpider(scrapy.Spider):
                 descSoup = BeautifulSoup(res.text, "html.parser")
                 info = descSoup.find(id="content")
                 item['description'] = info
+                #item['description'] = ''
 
                 item['coverPic'] = '' 
                 item['banner'] = ""
@@ -44,7 +45,7 @@ class NewsdHomeSpider(scrapy.Spider):
                 item['comment'] = 0
                 item['collection'] = 0
                 item['source'] = detailUrl 
-                item['createTime'] = (int(time.time()))
+                item['createTime'] = (int(round(1000 * time.time())))
 
                 author = descSoup.find("article")
                 item['author'] = author.find("a", "hover").string
