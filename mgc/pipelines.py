@@ -21,6 +21,7 @@ class MgcPipeline(object):
             print "Fail to connect to db!"
 
     def process_item(self, item, spider):
+        return;
         item['coverPic'] = item['coverPic'].strip()
         if item['title']:
             param = (item['uid'], item['sourceFrom'], item['title'], item['description'], item['category'], item['coverPic'], item['banner'], item['view'], item['comment'], item['collection'], item['source'], item['createTime'], item['author'], item['score'], item['label'])
